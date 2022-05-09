@@ -1,4 +1,5 @@
 import { defineConfig } from 'windicss/helpers'
+import FormsPlugin from 'windicss/plugin/forms'
 
 export default defineConfig({
   darkMode: 'class',
@@ -6,5 +7,5 @@ export default defineConfig({
     include: ['src/**/*.{html,jsx,tsx}'],
   },
   theme: {},
-  plugins: [],
+  plugins: [FormsPlugin],
 })
