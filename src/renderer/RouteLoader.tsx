@@ -55,7 +55,7 @@ const RouteLoader: FC = () => {
   }
 
   const update = () => {
-    setProgress((progress) => {
+    setProgress(progress => {
       if (progress < 100) {
         return progress + 1
       }
@@ -69,7 +69,7 @@ const RouteLoader: FC = () => {
         style={{
           height: `${appConfig.loader?.height || 2}px`,
           backgroundColor: appConfig.loader?.color || '#3B81F6',
-          width: `${progress}%`
+          width: `${progress}%`,
         }}
         className="transition-all top-0 left-0 duration-100 absolute"
       ></div>

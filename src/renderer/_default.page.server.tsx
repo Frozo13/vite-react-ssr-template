@@ -53,11 +53,11 @@ async function render(pageContext: PageContextBuiltIn & PageContext) {
     }
   }
 
-  const streamPipe = pipeNodeStream((writable) => {
+  const streamPipe = pipeNodeStream(writable => {
     ReactDOMServer.renderToPipeableStream(
       <PageShell pageContext={pageContext}>
         {error ? <ErrorPage is404={false} /> : <Page {...pageProps} />}
-      </PageShell>
+      </PageShell>,
     ).pipe(writable)
   })
 

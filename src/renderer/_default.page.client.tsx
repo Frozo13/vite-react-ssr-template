@@ -10,7 +10,7 @@ import {
 import { PageShell } from './PageShell'
 import { FetchProps, PageContext } from '@/renderer/types'
 import { getDocumentProps } from '@/renderer/getDocumentProps'
-import { appStore, initStore, usersStore } from '@/store'
+import { appStore, initStore } from '@/store'
 import { getHead } from './getHead'
 import { Page as ErrorPage } from '@/renderer/_error.page'
 

@@ -6,12 +6,12 @@ import Link from '@/components/Link'
 const links = [
   {
     url: '/',
-    text: 'Index page'
+    text: 'Index page',
   },
   {
     url: '/about',
-    text: 'About page'
-  }
+    text: 'About page',
+  },
 ]
 
 const Header: FC = () => {
@@ -34,12 +34,12 @@ const Header: FC = () => {
 
 const HeaderLink: FC<LinkHTMLAttributes<HTMLLinkElement>> = ({
   href,
-  children
+  children,
 }) => {
   const pageContext = usePageContext()
 
   const linkStyle = classNames({
-    'text-blue-600': pageContext.urlPathname === href
+    'text-blue-600': pageContext.urlPathname === href,
   })
 
   return (

@@ -5,12 +5,12 @@ import classNames from 'classnames'
 const Link: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   href,
   children,
-  className
+  className,
 }) => {
   const pageContext = usePageContext()
   const style = classNames(
     { 'is-active': pageContext.urlPathname === href },
-    className
+    className,
   )
 
   const onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {

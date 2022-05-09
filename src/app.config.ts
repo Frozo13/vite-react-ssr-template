@@ -11,7 +11,7 @@ type AppConfig = {
 
 const config: AppConfig = {
   appName: 'VITE-SSR-TEMPLATE',
-  description: ''
+  description: '',
 }
 
 export default config

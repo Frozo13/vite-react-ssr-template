@@ -6,7 +6,7 @@ import UsersList from '@/components/UsersList'
 export { Page, fetch, documentProps }
 
 const documentProps: DocumentProps = {
-  title: 'Index page'
+  title: 'Index page',
 }
 
 const fetch: FetchFucntion<any> = async () => {

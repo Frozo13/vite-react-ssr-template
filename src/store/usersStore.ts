@@ -26,13 +26,13 @@ class UsersStore {
   }
 
   public removeUser(id: number) {
-    this._users = this._users.filter((u) => u.id !== id)
+    this._users = this._users.filter(u => u.id !== id)
   }
 
   public async fetchUsers() {
     try {
       const response: AxiosResponse<IUser[]> = await $axios.get(
-        'https://jsonplaceholder.typicode.com/users'
+        'https://jsonplaceholder.typicode.com/users',
       )
       this.users = response.data
     } catch (error) {

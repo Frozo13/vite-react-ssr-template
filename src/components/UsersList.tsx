@@ -5,8 +5,8 @@ import UserCard from './UserCard'
 
 const UsersList: FC = () => {
   return (
-    <div className='flex flex-wrap p-2'>
-      {usersStore.users.map((user) => (
+    <div className="flex flex-wrap p-2">
+      {usersStore.users.map(user => (
         <UserCard {...user} key={user.id} />
       ))}
     </div>
