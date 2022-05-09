@@ -31,7 +31,7 @@ useClientRouter({
 
     if (!pageContext.isHydration && pageContext.pageExports.fetch) {
       try {
-        fetchedProps = await pageContext.pageExports.fetch()
+        fetchedProps = await pageContext.pageExports.fetch(pageContext)
       } catch (error) {
         pageContext.error = (error as Error).message
       }

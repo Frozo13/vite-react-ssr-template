@@ -15,6 +15,11 @@ export type PageContext = {
     fetch?: FetchFucntion<FetchProps>
     documentProps?: DocumentProps
   }
+  urlParsed: {
+    pathname: string
+    search: null | Record<string, string>
+    hash: null | string
+  }
 }
 
 export type DocumentProps = {
@@ -23,6 +28,6 @@ export type DocumentProps = {
   layout?: Layout
 }
 
-export type FetchFucntion<T> = () => Promise<FetchProps & T>
+export type FetchFucntion<T> = (context: PageContext) => Promise<FetchProps & T>
 
 export type FetchProps = Record<string, any> | { redirectTo: string }

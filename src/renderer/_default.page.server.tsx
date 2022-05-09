@@ -31,7 +31,7 @@ async function render(pageContext: PageContextBuiltIn & PageContext) {
 
   if (pageContext.pageExports.fetch) {
     try {
-      fetchedProps = await pageContext.pageExports.fetch()
+      fetchedProps = await pageContext.pageExports.fetch(pageContext)
     } catch (err) {
       error = (err as Error).message
     }
