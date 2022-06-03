@@ -1,8 +1,10 @@
 import React, { FC } from 'react'
 import { IUser } from '@/store/usersStore'
-import { usersStore } from '@/store'
+import { useStore } from '@/store/StoreProvider'
 
 const UserCard: FC<IUser> = user => {
+  const { usersStore } = useStore()
+
   function removeUser() {
     usersStore.removeUser(user.id)
   }

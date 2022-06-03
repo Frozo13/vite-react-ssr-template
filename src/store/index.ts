@@ -2,42 +2,56 @@ import { UsersStore } from '@/store/usersStore'
 import { AppStore } from '@/store/appStore'
 import { enableStaticRendering } from 'mobx-react-lite'
 
-export { usersStore, appStore, initStore, getInitialState }
-
 enableStaticRendering(typeof window === 'undefined')
 
-let initialized = false
+let store: Store
 
-let usersStore: UsersStore
-let appStore: AppStore
+export function getStore(initialState?: Record<string, string>) {
+  if (typeof window === 'undefined') {
+    return new Store()
+  }
+  if (!store) {
+    store = new Store(initialState)
+  }
+  return store
+}
 
-let stores: Record<string, object>
+export default class Store {
+  private _usersStore: UsersStore
+  private _appStore: AppStore
 
-function initStore(initialState?: Record<string, string>) {
-  if (typeof window === 'undefined' || !initialized) {
-    usersStore = new UsersStore()
-    appStore = new AppStore()
+  private stores: Record<string, object>
 
-    stores = { usersStore, appStore }
+  constructor(initialState?: Record<string, string>) {
+    this._usersStore = new UsersStore()
+    this._appStore = new AppStore()
+
+    this.stores = { usersStore: this._usersStore, appStore: this._appStore }
 
     if (initialState) {
-      for (const store in stores) {
+      for (const store in this.stores) {
         if (initialState[store]) {
-          Object.assign(stores[store], JSON.parse(initialState[store]))
+          Object.assign(this.stores[store], JSON.parse(initialState[store]))
         }
       }
     }
-
-    initialized = true
-  }
-}
-
-function getInitialState() {
-  const data: Record<string, string> = {}
-
-  for (const store in stores) {
-    data[store] = JSON.stringify(stores[store])
   }
 
-  return data
+  get usersStore() {
+    return this._usersStore
+  }
+
+  get appStore() {
+    return this._appStore
+  }
+
+  public getInitialState() {
+    const data: Record<string, string> = {}
+
+    for (const store in this.stores) {
+      data[store] = JSON.stringify(this.stores[store])
+    }
+
+    return data
+  }
 }

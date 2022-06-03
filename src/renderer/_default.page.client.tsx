@@ -8,7 +8,8 @@ import {
 import { PageShell } from './PageShell'
 import { FetchProps, PageContext } from '@/renderer/types'
 import { getDocumentProps } from '@/renderer/getDocumentProps'
-import { appStore, initStore } from '@/store'
+import { getStore } from '@/store'
+import { StoreProvider } from '@/store/StoreProvider'
 import { getHead } from './getHead'
 import { Page as ErrorPage } from '@/renderer/_error.page'
 
@@ -19,9 +20,9 @@ useClientRouter({
     let pageProps = pageContext.pageProps
     let fetchedProps: FetchProps | null = null
 
-    if (pageContext.isHydration) {
-      initStore(pageContext.initialState)
+    let store = getStore(pageContext.initialState)
 
+    if (pageContext.isHydration) {
       if (pageContext.fetchedProps) {
         pageProps = { ...pageProps, ...pageContext.fetchedProps }
       }
@@ -29,7 +30,7 @@ useClientRouter({
 
     if (!pageContext.isHydration && pageContext.pageExports.fetch) {
       try {
-        fetchedProps = await pageContext.pageExports.fetch(pageContext)
+        fetchedProps = await pageContext.pageExports.fetch(pageContext, store)
       } catch (error) {
         pageContext.error = (error as Error).message
       }
@@ -47,13 +48,15 @@ useClientRouter({
     }
 
     const page = (
-      <PageShell pageContext={pageContext}>
-        {pageContext.error ? (
-          <ErrorPage is404={false} />
-        ) : (
-          <Page {...pageProps} />
-        )}
-      </PageShell>
+      <StoreProvider store={store}>
+        <PageShell pageContext={pageContext}>
+          {pageContext.error ? (
+            <ErrorPage is404={false} />
+          ) : (
+            <Page {...pageProps} />
+          )}
+        </PageShell>
+      </StoreProvider>
     )
     const container = document.getElementById('page-view')!
     if (pageContext.isHydration) {
@@ -80,11 +83,15 @@ useClientRouter({
 })
 
 function onTransitionStart() {
+  const { appStore } = getStore()
+
   if (appStore.onTransitionStart) {
     appStore.onTransitionStart()
   }
 }
 function onTransitionEnd() {
+  const { appStore } = getStore()
+
   if (appStore.onTransitionEnd) {
     appStore.onTransitionEnd()
   }

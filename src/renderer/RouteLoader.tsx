@@ -1,5 +1,5 @@
 import appConfig from '@/app.config'
-import { appStore } from '@/store'
+import { useStore } from '@/store/StoreProvider'
 import React, { FC, useEffect, useState } from 'react'
 
 let intervalHandler: NodeJS.Timer | null = null
@@ -7,12 +7,13 @@ let timeout: NodeJS.Timer | null = null
 const interval = (appConfig.loader?.duration || 5000) / 100
 
 const RouteLoader: FC = () => {
+  const { appStore } = useStore()
   const [progress, setProgress] = useState(0)
   const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
-    appStore.onTransitionStart = onTransitionStart
     appStore.onTransitionEnd = onTransitionEnd
+    appStore.onTransitionStart = onTransitionStart
 
     return () => {
       if (intervalHandler) {
@@ -56,10 +57,10 @@ const RouteLoader: FC = () => {
 
   const update = () => {
     setProgress(progress => {
-      if (progress < 100) {
+      if (progress < 95) {
         return progress + 1
       }
-      return 100
+      return 95
     })
   }
 

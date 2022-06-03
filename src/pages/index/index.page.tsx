@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { DocumentProps, FetchFucntion, PageProps } from '@/renderer/types'
-import { usersStore } from '@/store'
+
 import UsersList from '@/components/UsersList'
+import { useStore } from '@/store/StoreProvider'
 
 export { Page, fetch, documentProps }
 
@@ -9,16 +10,18 @@ const documentProps: DocumentProps = {
   title: 'Index page',
 }
 
-const fetch: FetchFucntion<any> = async () => {
-  if (usersStore.users.length) {
+const fetch: FetchFucntion<any> = async (ctx, store) => {
+  if (store.usersStore.users.length) {
     return
   }
-  await usersStore.fetchUsers()
+  await store.usersStore.fetchUsers()
 }
 
 const Page: FC<PageProps> = () => {
+  const { usersStore: users } = useStore()
+
   async function refetch() {
-    await usersStore.fetchUsers()
+    await users.fetchUsers()
   }
 
   return (

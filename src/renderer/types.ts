@@ -1,4 +1,5 @@
 import { Layout } from '@/layouts'
+import Store from '@/store'
 
 export type PageProps = Record<string, any>
 
@@ -28,6 +29,9 @@ export type DocumentProps = {
   layout?: Layout
 }
 
-export type FetchFucntion<T> = (context: PageContext) => Promise<FetchProps & T>
+export type FetchFucntion<T> = (
+  context: PageContext,
+  store: Store,
+) => Promise<FetchProps & T>
 
 export type FetchProps = Record<string, any> | { redirectTo: string }

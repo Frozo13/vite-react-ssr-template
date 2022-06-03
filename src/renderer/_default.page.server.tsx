@@ -5,7 +5,8 @@ import { PageShell } from './PageShell'
 import { FetchProps, PageContext } from './types'
 import { PageContextBuiltIn } from 'vite-plugin-ssr'
 import { getDocumentProps } from '@/renderer/getDocumentProps'
-import { getInitialState, initStore } from '@/store'
+import { getStore } from '@/store'
+import { StoreProvider } from '@/store/StoreProvider'
 import { getHead } from './getHead'
 import { Page as ErrorPage } from '@/renderer/_error.page'
 
@@ -24,14 +25,11 @@ async function render(pageContext: PageContextBuiltIn & PageContext) {
   let pageProps = pageContext.pageProps
   let fetchedProps!: FetchProps
   let error: any
-
-  if (!pageContext.is404) {
-    initStore()
-  }
+  const store = getStore()
 
   if (pageContext.pageExports.fetch) {
     try {
-      fetchedProps = await pageContext.pageExports.fetch(pageContext)
+      fetchedProps = await pageContext.pageExports.fetch(pageContext, store)
     } catch (err) {
       error = (err as Error).message
     }
@@ -55,9 +53,11 @@ async function render(pageContext: PageContextBuiltIn & PageContext) {
 
   const streamPipe = pipeNodeStream(writable => {
     ReactDOMServer.renderToPipeableStream(
-      <PageShell pageContext={pageContext}>
-        {error ? <ErrorPage is404={false} /> : <Page {...pageProps} />}
-      </PageShell>,
+      <StoreProvider store={store}>
+        <PageShell pageContext={pageContext}>
+          {error ? <ErrorPage is404={false} /> : <Page {...pageProps} />}
+        </PageShell>
+      </StoreProvider>,
     ).pipe(writable)
   })
 
@@ -76,10 +76,7 @@ async function render(pageContext: PageContextBuiltIn & PageContext) {
       </body>
     </html>`
 
-  let initialState
-  if (!pageContext.is404) {
-    initialState = getInitialState()
-  }
+  const initialState = store.getInitialState()
 
   return {
     documentHtml,
