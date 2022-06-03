@@ -1,5 +1,3 @@
-import 'virtual:windi.css'
-import 'virtual:windi-devtools'
 import React from 'react'
 import { createRoot, hydrateRoot, Root } from 'react-dom/client'
 import {

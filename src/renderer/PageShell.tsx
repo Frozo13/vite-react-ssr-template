@@ -4,6 +4,7 @@ import { PageContext } from './types'
 import { getDocumentProps } from './getDocumentProps'
 import { getLayout } from '@/layouts'
 import RouteLoader from './RouteLoader'
+import '@/index.css'
 
 export { PageShell }
 

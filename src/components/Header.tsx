@@ -18,12 +18,12 @@ const Header: FC = () => {
   return (
     <header className="bg-gradient-to-r border-b from-purple-200 to-pink-200 text-center p-2 ">
       <h1 className="font-bold text-lg mb-2">
-        VITE + REACT18 + MOBX + WINDICSS SSR TEMPLATE
+        VITE + REACT18 + MOBX + TAILWIND SSR TEMPLATE
       </h1>
 
       <ul className="flex justify-center">
         {links.map((link, index) => (
-          <li key={index} className="not-last:mr-5">
+          <li key={index} className="mr-5 last:mr-0">
             <HeaderLink href={link.url}>{link.text}</HeaderLink>
           </li>
         ))}
